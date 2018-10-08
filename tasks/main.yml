@@ -1,0 +1,15 @@
+---
+- name: gcloud sdk key
+  raw: "curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - "
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: gcloud sdk repository
+  apt_repository:
+    repo: "deb [arch=amd64] http://packages.cloud.google.com/apt cloud-sdk-{{ ansible_distribution_release }} main"
+    state: present
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: gcloud sdk package
+  apt:
+    name: google-cloud-sdk
+    state: present
